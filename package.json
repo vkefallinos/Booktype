@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node ./frontend/server.js --harmony_proxies"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,6 @@
     "url": "https://github.com/vkefallinos/Booktype/issues"
   },
   "homepage": "https://github.com/vkefallinos/Booktype#readme",
-  "scripts": {
-    "start": "babel-node ./frontend/server.js --harmony_proxies"
-  },
   "dependencies": {
     "babel": "^5.6.14",
     "babel-core": "^6.14.0",
@@ -57,6 +54,7 @@
     "react-router": "^2.8.1",
     "react-router-relay": "^0.13.5",
     "react-tap-event-plugin": "^1.0.0",
+    "redux": "^3.6.0",
     "require-clean": "0.1.3",
     "superagent": "^2.3.0",
     "superagent-jsonp": "^0.1.1",
