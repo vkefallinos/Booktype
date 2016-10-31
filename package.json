@@ -1,0 +1,69 @@
+{
+  "name": "booktype",
+  "version": "1.0.0",
+  "description": "the booktype frontend",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkefallinos/Booktype.git"
+  },
+  "author": "vkefallinos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vkefallinos/Booktype/issues"
+  },
+  "homepage": "https://github.com/vkefallinos/Booktype#readme",
+  "scripts": {
+    "start": "babel-node ./frontend/server.js --harmony_proxies"
+  },
+  "dependencies": {
+    "babel": "^5.6.14",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-relay-plugin": "0.9.3",
+    "chokidar": "1.6.0",
+    "classnames": "2.2.5",
+    "co": "^4.5.4",
+    "co-body": "^2.0.0",
+    "debug": "^2.2.0",
+    "draft-js-hashtag-plugin": "^2.0.0-beta1",
+    "draft-js-linkify-plugin": "^2.0.0-beta1",
+    "draft-js-plugins-editor": "^2.0.0-beta1",
+    "express": "4.14.0",
+    "express-graphql": "0.5.4",
+    "generator-megadraft-plugin": "^0.2.0",
+    "graphql": "0.7.0",
+    "graphql-custom-types": "^0.7.0",
+    "graphql-relay": "0.4.3",
+    "graphql-union-input-type": "^0.2.1",
+    "highlight.js": "^9.7.0",
+    "material-ui": "^0.16.1",
+    "megadraft": "^0.3.4",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-redux": "^4.4.5",
+    "react-relay": "0.9.3",
+    "react-router": "^2.8.1",
+    "react-router-relay": "^0.13.5",
+    "react-tap-event-plugin": "^1.0.0",
+    "require-clean": "0.1.3",
+    "superagent": "^2.3.0",
+    "superagent-jsonp": "^0.1.1",
+    "webpack": "1.13.2",
+    "webpack-dev-server": "1.15.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0"
+  }
+}
