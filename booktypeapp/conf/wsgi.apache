@@ -1,0 +1,38 @@
+# Apache configuration for Booktype server V1.0.6
+
+<VirtualHost *:80>
+
+     # Change the following three lines for your server
+
+     ServerName __INSERT_SERVER_NAME__
+     SetEnv HTTP_HOST "__INSERT_SERVER_NAME__"
+     ServerAdmin __INSERT_ADMIN_EMAIL__
+
+     SetEnv LC_TIME "en_GB.UTF-8"
+     SetEnv LANG "en_GB.UTF-8"
+
+     WSGIScriptAlias / /home/vasilis/SourceFabric/Booktype/booktypeapp/booktypeapp_site/wsgi.py
+
+     # uncomment 'Require all granted' for Apache 2.4 without mod_access_compat
+
+     <Location "/">
+       #Require all granted
+       Options FollowSymLinks
+     </Location>
+
+     Alias /static/ "/home/vasilis/SourceFabric/Booktype/booktypeapp/static/"
+     <Directory "/home/vasilis/SourceFabric/Booktype/booktypeapp/static/">
+       #Require all granted
+       Options -Indexes
+     </Directory>
+
+     Alias /data/ "/home/vasilis/SourceFabric/Booktype/booktypeapp/data/"
+     <Directory "/home/vasilis/SourceFabric/Booktype/booktypeapp/data/">
+       #Require all granted
+       Options -Indexes
+     </Directory>
+
+     ErrorLog ${APACHE_LOG_DIR}/booktype-booktypeapp-error.log
+     LogLevel warn
+     CustomLog ${APACHE_LOG_DIR}/booktype-booktypeapp-access.log combined
+</VirtualHost>
