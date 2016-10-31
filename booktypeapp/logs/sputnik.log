@@ -1,8 +1,0 @@
-[31/Oct/2016 14:40:49] ERROR [sputnik:181] [remote_chapter_save] Unknown exception.
-[31/Oct/2016 14:40:49] ERROR [sputnik:182] 'continue'
-Traceback (most recent call last):
-  File "/home/vasilis/SourceFabric/Booktype/lib/sputnik/views.py", line 166, in dispatcher
-    ret = fnc(request, message, **a)
-  File "/home/vasilis/SourceFabric/Booktype/lib/booktype/apps/edit/channel.py", line 668, in remote_chapter_save
-    if not message['continue']:
-KeyError: 'continue'

@@ -1,8 +1,0 @@
-[31/Oct/2016 13:39:51] INFO [booktype.utils.security.base:169] Role with anonymous_users name does not exists
-[31/Oct/2016 13:43:33] INFO [booktype.utils.security.base:169] Role with anonymous_users name does not exists
-[31/Oct/2016 13:49:15] INFO [booktype.utils.security.base:169] Role with anonymous_users name does not exists
-[31/Oct/2016 14:02:44] INFO [booktype.utils.security.base:169] Role with anonymous_users name does not exists
-[31/Oct/2016 14:05:05] INFO [booktype.utils.security.base:169] Role with registered_users name does not exists
-[31/Oct/2016 14:05:07] INFO [booktype.utils.security.base:169] Role with registered_users name does not exists
-[31/Oct/2016 14:40:27] INFO [booktype.utils.security.base:156] There is no Role name for role_key DEFAULT_ROLE_registered_users
-[31/Oct/2016 14:40:27] INFO [booktype.utils.security.base:169] Role with registered_users name does not exists

@@ -18,3 +18,4 @@ tests/static/css
 node_modules
 yarn.lock
 npm-debug*
+booktypeapp/logs/*.log
