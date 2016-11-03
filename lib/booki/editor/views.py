@@ -31,6 +31,12 @@ import json
 
 import logging
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import BookSerializer
+from booktype.apps.core.views import SecurityMixin
+from booki.editor.models import Book, Chapter
+from rest_framework.request import Request
 
 def getVersion(book, version):
     """
@@ -52,6 +58,92 @@ def getVersion(book, version):
 
 
 # BOOK
+class ChapterList(SecurityMixin, APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def get(self, request, format=None):
+        books = Chapter.objects.select_related('version').filter(
+            owner=request.user).order_by('title')
+        serializer_context = {
+            'request': Request(request),
+        }
+        serializer = BookSerializer(books,context=serializer_context, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class BookList(SecurityMixin, APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def get(self, request, format=None):
+        books = Book.objects.select_related('version').filter(
+            owner=request.user).order_by('title')
+        serializer_context = {
+            'request': Request(request),
+        }
+        serializer = BookSerializer(books,context=serializer_context, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# class SnippetDetail(APIView):
+#     """
+#     Retrieve, update or delete a snippet instance.
+#     """
+#     def get_object(self, pk):
+#         try:
+#             return Snippet.objects.get(pk=pk)
+#         except Snippet.DoesNotExist:
+#             raise Http404
+#
+#     def get(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         serializer = SnippetSerializer(snippet)
+#         return Response(serializer.data)
+#
+#     def put(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         serializer = SnippetSerializer(snippet, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#     def delete(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         snippet.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# @login_required
+# class BookViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     print self.request
+#     self.is_current_user_dashboard = kwargs.get(self.slug_url_kwarg, None) == self.request.user.username
+#     if not self.security.has_perm('account.can_view_user_info') and not self.is_current_user_dashboard:
+#         raise PermissionDenied
+#     if self.is_current_user_dashboard:
+#         queryset = models.Book.objects.select_related('version').filter(
+#             owner=self.object).order_by('title')
+#     else:
+#         queryset = models.Book.objects.select_related('version').filter(
+#             owner=self.object, hidden=False).order_by('title')
+#     serializer_class = BookSerializer
+
 
 def export(request, bookid):
     """
@@ -134,7 +226,22 @@ def edit_book(request, bookid, version=None):
     except AttributeError:
         from booktype import constants
         publish_options = constants.PUBLISH_OPTIONS
+    return {
+        "book": book,
+        "book_version": book_version.getVersion(),
+        "version": book_version,
 
+        # this change will break older versions of template
+        "statuses": [(s.name.replace(' ', '_'), s.name) for s in models.BookStatus.objects.filter(book = book)],
+        "chapters": chapters,
+        "security": bookSecurity,
+        "is_admin": bookSecurity.isGroupAdmin() or bookSecurity.isBookAdmin() or bookSecurity.isSuperuser(),
+        "is_owner": book.owner == request.user,
+        "tabs": tabs,
+        "is_browser_supported": isBrowserSupported,
+        "publish_options": publish_options,
+        "request": request
+    }
     return render(
         request,
         'editor/edit_book.html', {
@@ -450,6 +557,27 @@ def upload_cover(request, bookid, version=None):
 
     return HttpResponse('<html><body><script> parent.jQuery.booki.editor.showCovers(); </script></body></html>')
 
+
+
+def view_user_books_json(request):
+    """
+
+    @param request: Django Request.
+
+    @todo: Should be moved to booki.portal
+    """
+    if self.is_current_user_dashboard:
+        context['books'] = Book.objects.select_related('version').filter(
+            owner=self.object).order_by('title')
+    else:
+        context['books'] = Book.objects.select_related('version').filter(
+            owner=self.object, hidden=False).order_by('title')
+
+    books = models.Book.objects.filter(hidden=False).order_by("title")
+    response = HttpResponse(content_type="application/json")
+    json_serializer = serializers.get_serializer("json")()
+    json_serializer.serialize(books, ensure_ascii=False, stream=response, fields=('title', 'url_title'))
+    return response
 
 def view_books_json(request):
     """
