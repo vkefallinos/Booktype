@@ -86,7 +86,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'booktype.apps.themes.finder.ThemeFinder',    
+    'booktype.apps.themes.finder.ThemeFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'compressor.finders.CompressorFinder'
 )
@@ -191,7 +191,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
     'django.template.loaders.eggs.Loader',
-    'booktype.apps.themes.loaders.Loader'    
+    'booktype.apps.themes.loaders.Loader'
 )
 
 
@@ -261,11 +261,14 @@ INSTALLED_APPS = (
 
     # to be removed
     'booki.messaging',
-
+    'rest_framework',
     'sputnik',
     'booktypecontrol'
 )
-
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGE_SIZE': 10
+}
 BOOKTYPE_CONVERTER_MODULES = (
     'booktype.convert.converters',
 )
