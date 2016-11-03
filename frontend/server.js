@@ -4,9 +4,13 @@ import WebpackDevServer from 'webpack-dev-server';
 import {clean} from 'require-clean';
 import {exec} from 'child_process';
 import express from 'express'
+import  ExtractTextPlugin from 'extract-text-webpack-plugin';
+import autoprefixer from 'autoprefixer';
 const BOOKTYPEAPP_PORT = 8000;
 const APP_PORT = 3000
 let appServer;
+
+
 function startAppServer(callback) {
   const compiler = webpack({
     entry: path.resolve(__dirname, 'js', 'app.js'),
@@ -16,9 +20,17 @@ function startAppServer(callback) {
           exclude: /node_modules/,
           loader: 'babel',
           test: /\.js$/,
+        },
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=draftJsEmojiPlugin__[local]__[hash:base64:5]!postcss-loader'),
         }
       ]
     },
+    postcss: [autoprefixer({ browsers: ['> 1%'] })],
+    plugins: [
+      new ExtractTextPlugin(`${path.parse(process.argv[2]).name}.css`),
+    ],
     output: {filename: '/app.js', path: '/', publicPath: '/js/'}
   });
   appServer = new WebpackDevServer(compiler, {
@@ -29,6 +41,8 @@ function startAppServer(callback) {
       '/accounts': `http://localhost:${BOOKTYPEAPP_PORT}`,
       '/groups': `http://localhost:${BOOKTYPEAPP_PORT}`,
       '/**/_edit/**': `http://localhost:${BOOKTYPEAPP_PORT}`,
+      '/**/_apiedit/**': `http://localhost:${BOOKTYPEAPP_PORT}`,
+      '/api/*': `http://localhost:${BOOKTYPEAPP_PORT}`,
       '/**/_info/**': `http://localhost:${BOOKTYPEAPP_PORT}`,
       '/**/_full/**': `http://localhost:${BOOKTYPEAPP_PORT}`,
       '/**/_history/**': `http://localhost:${BOOKTYPEAPP_PORT}`,
